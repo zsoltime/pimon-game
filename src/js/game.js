@@ -7,7 +7,6 @@ function Game() {
   let index = 0;
   let sequenceTimeout = 800;
   let playing = false;
-  let userSequence = []; // @todo ?
   // let maxIndex = 0;
   let clicks = 0;
 
@@ -20,10 +19,14 @@ function Game() {
     dom.game = document.getElementById('game');
     dom.start = document.getElementById('start');
     dom.disabled = document.getElementById('disable');
+    dom.restart = document.getElementById('restart');
+    dom.digits = document.getElementById('digits');
+    dom.modal = document.getElementById('modal');
   }
 
   function bindEvents() {
     game.addEventListener('click', handleClick);
+    restart.addEventListener('click', reset);
   }
 
   function handleClick(event) {
@@ -37,7 +40,7 @@ function Game() {
     }
     // @todo don't check if not playing
     if (!checkSequence(event.target.dataset.value)) {
-      console.log('game over')
+      gameover();
     }
     else {
       console.log('right on spot ', event.target.dataset.value);
@@ -57,6 +60,16 @@ function Game() {
     dom.disabled.classList.remove('active');
   }
 
+  function reset() {
+    index = 0;
+    clicks = 0;
+    playing = false;
+    // @todo enable start button
+    dom.start.classList.remove('disabled');
+    // @todo hide modal
+    dom.modal.classList.remove('active');
+  }
+
   function start() {
     if (playing) {
       return;
@@ -68,6 +81,11 @@ function Game() {
     wait(sequenceTimeout * 0.5)
     .then(_ => playSequence());
     return;
+  }
+
+  function gameover() {
+    dom.digits.textContent = index - 1;
+    dom.modal.classList.add('active');
   }
 
   function playSequence() {
@@ -96,7 +114,6 @@ function Game() {
 
   function checkSequence(lastNumber) {
     if (PI[clicks] === lastNumber) {
-      // clicks += 1;
       if (clicks === index) {
         clicks = 0;
         index += 1;
@@ -105,7 +122,6 @@ function Game() {
       else if (clicks < index) {
         clicks += 1;
       }
-
       return true;
     }
     else {

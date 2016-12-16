@@ -9,3 +9,9 @@ block content
       div.button(id='_#{i}', data-value='#{i}')= i
     div.button#point(data-value='.') .
     div.button#start Start
+    
+  .modal#modal
+    .modal-box
+      h2 Game Over
+      p You successfully repeated Pi to #[span#digits ] digits
+      button#restart Play Again
