@@ -1,13 +1,11 @@
 'use strict';
 
 function Game() {
-
   const dom = {};
-  const PI = '3.141592653589793238462643383279502884197169399375105820974944592';
+  const PI = '3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679';
   let index = 0;
   let sequenceTimeout = 800;
   let playing = false;
-  // let maxIndex = 0;
   let clicks = 0;
 
   function init() {
@@ -25,8 +23,8 @@ function Game() {
   }
 
   function bindEvents() {
-    game.addEventListener('click', handleClick);
-    restart.addEventListener('click', reset);
+    dom.game.addEventListener('click', handleClick);
+    dom.restart.addEventListener('click', reset);
   }
 
   function handleClick(event) {
@@ -38,12 +36,14 @@ function Game() {
       start();
       return;
     }
-    // @todo don't check if not playing
-    if (!checkSequence(event.target.dataset.value)) {
-      gameover();
-    }
-    else {
-      console.log('right on spot ', event.target.dataset.value);
+
+    if (playing) {
+      if (!checkSequence(event.target)) {
+        gameover();
+      }
+      else {
+        console.log('right on spot ', event.target.dataset.value);
+      }
     }
 
     wait(10)
@@ -52,21 +52,16 @@ function Game() {
     .then(_ => event.target.classList.remove('active'));
   }
 
-  function disableKeypad() {
-    dom.disabled.classList.add('active');
-  }
-
-  function enableKeypad() {
-    dom.disabled.classList.remove('active');
+  function toggleKeypad() {
+    dom.disabled.classList.toggle('active');
   }
 
   function reset() {
     index = 0;
     clicks = 0;
     playing = false;
-    // @todo enable start button
+
     dom.start.classList.remove('disabled');
-    // @todo hide modal
     dom.modal.classList.remove('active');
   }
 
@@ -85,14 +80,17 @@ function Game() {
 
   function gameover() {
     dom.digits.textContent = index - 1;
-    dom.modal.classList.add('active');
+    wait(sequenceTimeout)
+    .then(_ => dom.modal.classList.add('active'));
   }
 
   function playSequence() {
+    toggleKeypad();
     // @todo should disable keypad and enable again once finished
     for (let i = 0; i <= index; i++) {
       wait(sequenceTimeout * i)
       .then(_ => {
+        // @todo refactor flash()
         if (PI[i] === '.') {
           document.getElementById('point').classList.add('play');
         }
@@ -102,6 +100,10 @@ function Game() {
       })
       .then(_ => wait(sequenceTimeout))
       .then(_ => {
+        if (i === index) {
+          toggleKeypad();
+        }
+
         if (PI[i] === '.') {
           document.getElementById('point').classList.remove('play');
         }
@@ -112,12 +114,20 @@ function Game() {
     }
   }
 
-  function checkSequence(lastNumber) {
-    if (PI[clicks] === lastNumber) {
+  function flash() {}
+
+  function checkSequence(button) {
+    // @todo indicate somehow when successfully finished sequence
+    if (PI[clicks] === button.dataset.value) {
+      button.classList.add('correct');
+      wait(200)
+      .then(_ => button.classList.remove('correct'));
+
       if (clicks === index) {
         clicks = 0;
         index += 1;
-        playSequence();
+        wait(sequenceTimeout * .5)
+        .then(_ => playSequence());
       }
       else if (clicks < index) {
         clicks += 1;
@@ -125,7 +135,9 @@ function Game() {
       return true;
     }
     else {
-      // @todo gameover
+      button.classList.add('wrong');
+      wait(sequenceTimeout)
+      .then(_ => button.classList.remove('wrong'));
       return false;
     }
   }
