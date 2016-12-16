@@ -1,6 +1,6 @@
 # Day 13 of My 3 Weeks Game Challenge
 
-I can't believe it's already the tenth day. Time flies when you're having fun. Pimon seemed to be like a good idea for today.
+I can't believe it's already the thirteenth day. Time flies when you're having fun. Pimon seemed to be like a good idea for today.
 
 Pimon game is like [Simon Says][wiki] but instead of playing with a random sequence it follows the digits of the constant π.
 
