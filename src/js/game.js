@@ -38,10 +38,8 @@ function Game() {
     }
 
     if (playing) {
-      if (!checkSequence(event.target)) {
-        gameover();
-      }
-      else {
+      if (checkSequence(event.target)) {
+        // @todo indicate somehow when successfully finished sequence
         console.log('right on spot ', event.target.dataset.value);
       }
     }
@@ -117,7 +115,6 @@ function Game() {
   function flash() {}
 
   function checkSequence(button) {
-    // @todo indicate somehow when successfully finished sequence
     if (PI[clicks] === button.dataset.value) {
       button.classList.add('correct');
       wait(200)
@@ -128,16 +125,17 @@ function Game() {
         index += 1;
         wait(sequenceTimeout * .5)
         .then(_ => playSequence());
+        return true;
       }
       else if (clicks < index) {
         clicks += 1;
       }
-      return true;
     }
     else {
       button.classList.add('wrong');
       wait(sequenceTimeout)
       .then(_ => button.classList.remove('wrong'));
+      gameover();
       return false;
     }
   }
