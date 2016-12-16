@@ -17,7 +17,7 @@ var options = {
   src: {
     jade: ['./src/jade/**/*.jade', '!src/jade/**/layout.jade'],
     js: './src/js/**/*.js',
-    sass: './src/sass/*.sass'
+    sass: ['./src/sass/**/*.s+(a|c)ss', '!src/sass/vendors/**/*']
   },
   dest: {
     html: './dist/',

@@ -1,1 +1,66 @@
+body
+  -webkit-tap-highlight-color: transparent
+  align-items: center
+  background-image: linear-gradient(135deg, #432b58 20%, #734b6f 80%)
+  display: flex
+  flex-wrap: wrap
+  height: 100vh
+  justify-content: center
+  user-select: none
 
+h1
+  color: $color-h1
+  font-size: 3em
+  font-weight: 300
+  margin: 0
+  text-align: center
+  width: 100%
+
+.game
+  align-items: center
+  display: flex
+  flex-wrap: wrap
+  height: 80%
+  justify-content: space-around
+  margin: auto
+  max-width: 400px
+  padding: 1.25rem
+  width: 100%
+
+  div
+    -webkit-tap-highlight-color: transparent
+    align-items: center
+    background-color: #fff
+    background-image: linear-gradient(to bottom, white 0%, #f6f6f6 40%, #ededed 100%)
+    border: 1px solid rgba(white, .5)
+    border-radius: 4px
+    box-shadow: inset 0 1px 1px rgba(white, 0.7), 0 1px 1px rgba(black, .2), 1px 2px 2px rgba(black, .3), 1px 3px 3px rgba(black, .3), 1px 4px 4px rgba(black, .3), 1px 5px 5px rgba(black, .3), 1px 6px 6px rgba(black, .3), 1px 7px 7px rgba(black, .3)
+    cursor: pointer
+    display: flex
+    font-size: 10vmin
+    font-weight: 300
+    height: 20vmin
+    justify-content: center
+    margin: .25em
+    opacity: .8
+    text-align: center
+    text-shadow: 1px 1px rgba(white, .5)
+    transition: .1s background ease
+    width: 20vmin
+
+    &:hover
+      opacity: 1
+
+    &:active,
+    &.active
+      border: 1px solid rgba(white, 0)
+      box-shadow: inset 1px 1px 4px rgba(black, .3), inset -1px 0 4px rgba(black, .7)
+
+    &.play
+      background: $color-button-play
+
+    &.correct
+      background: $color-button-correct
+
+    &.wrong
+      background: $color-button-wrong

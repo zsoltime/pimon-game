@@ -1,9 +1,15 @@
 'use strict';
 
 function Game() {
-  function init() {}
+  function init() {
+
+    return {
+      init: init,
+    }
+  }
 }
 
-document.addEventListener("DOMContentLoaded", function(e) {
-  Game.init();
+document.addEventListener('DOMContentLoaded', function(e) {
+  const game = Game();
+  game.init();
 });

@@ -2,4 +2,9 @@ extends layout
 block title
   title (13) Pimon Game
 block content
+  h1 Pimon Game
   .game#game
+    each i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+      div(data-value='#{i}')= i
+    div(data-value='.') .
+    div#start Start
